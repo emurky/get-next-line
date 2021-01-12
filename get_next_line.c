@@ -14,5 +14,12 @@
 
 int		get_next_line(int fd, char **line)
 {
-	
+	static char	*buff;
+	int			read_count;
+
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	read_count = read(fd, buff, BUFFER_SIZE);
+	buff[read_count] = '\0';
+	*line = buff;
+	return (1);
 }
