@@ -69,7 +69,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	return (dst);
 }
 
-char		*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*joined_str;
 	char	*joinptr;
@@ -86,5 +86,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	while (*s2)
 		*joinptr++ = *s2++;
 	*joinptr = '\0';
+//	free(s1);
+//	s1 = NULL;
 	return (joined_str);
 }
