@@ -12,26 +12,42 @@
 
 #include "get_next_line.h"
 
-# define BUFFER_SIZE 32 /*DELEEEEEEEEEETE*/
+# define BUFFER_SIZE	6 /*DELEEEEEEEEEETE*/
+# define FDS			1
+
+int		buffer_handling(char **buffer, char **line)
+{
+	char	*nl_pointer;
+
+	if ((nl_pointer = ft_strchr(*buffer, '\n')))
+	{
+		*nl_pointer = '\0';
+		*line = ft_strjoin(*line, *buffer);
+		ft_memmove(*buffer, ++nl_pointer, BUFFER_SIZE);
+		return (1);
+	}
+	*line = ft_strjoin(*line, *buffer);
+	return (0);
+}
 
 int		get_next_line(int fd, char **line)
 {
-	static char		*buffer[128];
-	char			*nl_pointer;
+	static char		*buffer[FDS];
+//	char			*nl_pointer;
 	ssize_t			read_count;
-	
-//	char *  a, b;
 
-	if (!(buffer[fd] = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+	*line = ft_strdup("\0");
+	if (!buffer[fd] && !(buffer[fd] = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
-	if (((read_count = read(fd, buffer[fd], BUFFER_SIZE)) == -1))
-		return (-1);
-	if ((nl_pointer = ft_strchr(buffer[fd], '\n')))
+	else
+		if (buffer_handling(&(buffer[fd]), line))
+			return (1);
+	while ((read_count = read(fd, buffer[fd], BUFFER_SIZE)))
 	{
-		*nl_pointer = '\0';
-//		buffer[fd] = ++nl_pointer;
+		buffer[fd][read_count] = '\0';
+		if (buffer_handling(&(buffer[fd]), line))
+			break ;
+//		*line = buffer[fd];
 	}
-	buffer[fd][read_count] = '\0';
-	*line = buffer[fd];
 	return (1);
 }
