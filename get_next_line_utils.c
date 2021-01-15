@@ -72,7 +72,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*joined_str;
-	char	*joinptr;
+	char	*s1_ptr;
 	size_t	len;
 
 	if (!(s1 && s2))
@@ -80,13 +80,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	len = ft_strlen(s1) + ft_strlen(s2);
 	if (!(joined_str = malloc(sizeof(char) * (len + 1))))
 		return (NULL);
-	joinptr = joined_str;
-	while (*s1)
-		*joinptr++ = *s1++;
+	joined_str[len] = '\0';
+	s1_ptr = s1;
+	while (*s1_ptr)
+		*joined_str++ = *s1_ptr++;
 	while (*s2)
-		*joinptr++ = *s2++;
-	*joinptr = '\0';
-//	free(s1);
-//	s1 = NULL;
-	return (joined_str);
+		*joined_str++ = *s2++;
+	free(s1);
+	s1 = NULL;
+	return (joined_str - len);
 }

@@ -12,18 +12,18 @@
 
 #include "get_next_line.h"
 
-//# define BUFFER_SIZE	6 /*DELEEEEEEEEEETE*/
-# define FDS			1
+# define BUFFER_SIZE	6 /*DELEEEEEEEEEETE*/
+# define FDS			3
 
 int		nl_finder(char **buffer, char **line)
 {
-	char	*nl_pointer;
+	char	*nl_ptr;
 
-	if ((nl_pointer = ft_strchr(*buffer, '\n')))
+	if ((nl_ptr = ft_strchr(*buffer, '\n')))
 	{
-		*nl_pointer = '\0';
+		*nl_ptr++ = '\0';
 		*line = ft_strjoin(*line, *buffer);
-		ft_memmove(*buffer, ++nl_pointer, BUFFER_SIZE);
+		ft_memmove(*buffer, nl_ptr, BUFFER_SIZE - (nl_ptr - *buffer) + 1);
 		return (1);
 	}
 	*line = ft_strjoin(*line, *buffer);
@@ -33,7 +33,7 @@ int		nl_finder(char **buffer, char **line)
 int		get_next_line(int fd, char **line)
 {
 	static char		*buffer[FDS];
-	ssize_t			read_count;
+	int				read_count;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
@@ -44,7 +44,7 @@ int		get_next_line(int fd, char **line)
 			return (-1);
 	}
 	else if (nl_finder(&(buffer[fd]), line))
-			return (1);
+		return (1);
 	while ((read_count = read(fd, buffer[fd], BUFFER_SIZE)))
 	{
 		buffer[fd][read_count] = '\0';
