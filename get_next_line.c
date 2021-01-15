@@ -12,8 +12,12 @@
 
 #include "get_next_line.h"
 
-# define BUFFER_SIZE	6 /*DELEEEEEEEEEETE*/
-# define FDS			3
+//# define BUFFER_SIZE	6 /*DELEEEEEEEEEETE*/
+
+#define FDS			100
+/*
+**		FDS - number of file descriptors that could be opened in one time
+*/
 
 int		nl_finder(char **buffer, char **line)
 {
@@ -37,8 +41,8 @@ int		get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	*line = ft_strdup("\0");
-	if (!buffer[fd])
+	*line = ft_strdup("");
+	if (!(buffer[fd]))
 	{
 		if (!(buffer[fd] = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 			return (-1);
