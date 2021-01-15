@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#define FDS				100
+#define FDS				512
 
 /*
 **		FDS - number of file descriptors that could be opened in one time
@@ -49,6 +49,8 @@ int		get_next_line(int fd, char **line)
 		return (1);
 	while ((read_count = read(fd, buffer[fd], BUFFER_SIZE)))
 	{
+		if (read_count < 0)
+			return (-1);
 		buffer[fd][read_count] = '\0';
 		if (nl_finder(&(buffer[fd]), line))
 			return (1);
