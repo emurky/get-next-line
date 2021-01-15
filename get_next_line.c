@@ -11,10 +11,8 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#define FDS				100
 
-//# define BUFFER_SIZE	6 /*DELEEEEEEEEEETE*/
-
-#define FDS			100
 /*
 **		FDS - number of file descriptors that could be opened in one time
 */
